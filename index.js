@@ -88,8 +88,8 @@ Throttle.prototype.rateLimit = function (key, cb) {
 
     self.waiting = true;
     self.getter.call(self.table, key, function (err, bucket) {
-        self.waiting = false;
         if (err) {
+            self.waiting = false;
             return cb(new Error("Unable to check token table" + err));
         }
         if (bucket) {
@@ -108,7 +108,6 @@ Throttle.prototype.rateLimit = function (key, cb) {
         const hasCapacity = bucket.consume(1);
 
         //console.log("Throttle(%s): num_tokens= %d -- throttled: %s", key, bucket.tokens, !hasCapacity)
-        self.waiting = true;
         self.putter.call(self.table, key, bucket, function (err) {
             self.waiting = false;
             // Error here is not fatal -- we were able to determine throttle status, just not save state.
