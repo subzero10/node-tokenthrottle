@@ -82,7 +82,7 @@ Throttle.prototype.rateLimit = function (key, cb) {
     if (self.waiting) {
         setTimeout(() => {
             self.rateLimit(key, cb);
-        }, 50);
+        }, 5);
         return;
     }
 
